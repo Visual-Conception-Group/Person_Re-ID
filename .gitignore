@@ -1,0 +1,15 @@
+*/__pycache__
+__pycache__
+*/node_modules
+venv
+demo_data
+static/uploads
+*.pt
+*.pth
+*.db
+*.vscode
+src
+file-cleanup-script.sh
+.DS_Store
+
+text_prid.py

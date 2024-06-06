@@ -1,0 +1,6 @@
+1. Load the video
+2. Select a second which you wanted to process
+3. extract all 10 frames from that seconds
+4. display all 10 frames with bounding box 
+5. select a image from that now it will display all the person image from the head
+6. select an image, and then based selected image it will display in which frame that person is present.
