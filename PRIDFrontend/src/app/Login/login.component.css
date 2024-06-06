@@ -1,0 +1,12 @@
+.position{
+    margin-top: 100px;
+}
+
+.login-button-position{
+    text-align: right;
+}
+.error-text-position{
+    text-align: left;
+    font-weight: 400;
+    color: red;
+}

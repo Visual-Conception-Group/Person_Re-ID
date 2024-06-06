@@ -8,7 +8,7 @@ static/uploads
 *.pth
 *.db
 *.vscode
-src
+
 file-cleanup-script.sh
 .DS_Store
 

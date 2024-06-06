@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 position">
+            <div class="card">
+                <div class="card-header bg-success">
+                    Login Window
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="EmailAddress" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="EmailAddress" [(ngModel)]="email_address">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" [(ngModel)]="password">
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-9 error-text-position">
+                            {{login_validation_error}}
+                        </div>
+                        <div class="col-md-3 login-button-position">
+                            <button class="btn btn-dark" (click)="login()">Login</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-success">
+                    Redirect to Demo
+                </div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-md-7 login-button-position">
+                            <button class="btn btn-dark" (click)="redirect_to_demo()">Demo</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+</div>

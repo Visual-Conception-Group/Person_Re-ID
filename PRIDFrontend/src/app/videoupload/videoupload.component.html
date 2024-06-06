@@ -1,0 +1,54 @@
+<div class="container-fluid" style="margin-top: 20px;">
+    <div class="row">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <div class="card bg-light">
+                <h4 class="card-header">Process Video</h4>
+                    <div class="card-body">
+                        <p>Upload video file(right now only .mp4 file)</p>
+                        <p><input class="form-control" type="file" placeholder="Select video"
+                        (change)="changeInFileInput($event)"></p>
+                        <div class="progress">
+                            <div class="progress-bar bg-info" role="progressbar" [ngStyle]="{'width': progress + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                {{progress}}%
+                            </div>
+                          </div>
+                        <div class="row" style="margin-top: 5px;">
+                            <div class="col-md-6 error-msg">
+                                {{error_message}}
+
+                            </div>
+                            <div class="col-md-6 upload-btn-position">
+                            <!-- <button class="btn btn-secondary btn-margin " (click)="file_upload()">Upload File</button> -->
+                            <!-- <button *ngIf="is_upload_complete" class="btn btn-secondary btn-margin" (click)="go_to_video_process()">Analyze Video</button> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <p>Upload aux video files(right now only .mp4 file)</p>
+                        <p><input class="form-control" type="file" name="aux_videos" multiple="multiple"  placeholder="Select aux videos"
+                        (change)="changeInFileInputV2($event)"></p>
+                        <div class="progress">
+                            <div class="progress-bar bg-info" role="progressbar" [ngStyle]="{'width': progress + '%'}" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                                {{progress}}%
+                            </div>
+                          </div>
+                        <div class="row" style="margin-top: 5px;">
+                            <div class="col-md-6 error-msg">
+                                {{error_message}}
+
+                            </div>
+                            <div class="col-md-6 upload-btn-position">
+                            <button class="btn btn-secondary btn-margin " (click)="file_upload_v2()">Upload File</button>
+                            <button *ngIf="is_upload_complete" class="btn btn-secondary btn-margin" (click)="go_to_video_process()">Analyze Videos</button>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+        </div>
+    </div>
+</div>

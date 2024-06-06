@@ -1,0 +1,12 @@
+.upload-btn-position{
+    text-align: right;
+}
+
+.error-msg{
+    text-align: left;
+    font-weight: 400;
+    color: red;
+}
+.btn-margin{
+    margin-left: 3px;
+}

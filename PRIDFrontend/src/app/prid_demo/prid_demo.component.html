@@ -1,0 +1,222 @@
+<div class="container">
+    <div class="card">
+        <!-- <div class="card-header bg-dark text-white">Video Avalysis</div> -->
+        <div class="card-body card-padding">
+            <div class="row">
+                <div class="col-md-8">
+                    <div style="display: flex;">
+                        <div style="display: block; margin: 0 auto;">
+                            <button class="btn btn-success" (click)="prepare_demo()">Prepare Demo</button>
+                            <button class="btn btn-success" (click)="get_video_info_v2()">Video Preview</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card" *ngIf="video_path">
+                        <div class="card-header bg-dark text-white">Uploaded Video Preview</div>
+                        <div class="card-body" style="text-align: center;">
+                            <video controls width="600" height="300" #videoPlayer>
+                                <source *ngIf="video_path" src="{{video_path}}" type="video/mp4">
+                            </video>
+
+                        </div>
+                    </div>
+
+                    <div class="card" *ngFor="let item of aux_video_names ; let i = index ; let l = count">
+                        <div class="card-header bg-dark text-white">Uploaded Aux Video {{i+1}} Preview</div>
+                        <div class="card-body" style="text-align: center;">
+                            <div class="card-body" style="text-align: center;">
+                                <video controls width="600" height="300" #videoPlayer>
+                                    <source *ngIf="aux_video_paths" src="{{aux_video_paths[i]}}" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header bg-dark text-white">Video Information</div>
+                        <!-- Video Information
+
+                        Video Name : static/uploads/prid/video.mp4
+
+                        Video Duration : 156 Seconds
+
+                        No of Frame will Extracted : 156 Frames -->
+                        <div class="card-body">
+                            <p>
+                                <span class="info-title">Video Name </span>: <span class="info-desp"
+                                    *ngIf="video_name != ''">{{video_name}}</span>
+                                <span class="info-desp" *ngIf="video_name == ''">No Information</span>
+                            </p>
+                            <p>
+                                <span class="info-title">Video Duration</span> : <span class="info-desp"
+                                    *ngIf="video_duration != ''">{{video_duration}}</span>
+                                <span class="info-desp" *ngIf="video_duration == ''">No Information</span>
+                            </p>
+                            <p>
+                                <span class="info-title">No of Frame will Extracted </span> : <span class="info-desp"
+                                    *ngIf="no_of_frames_extracted != ''">{{no_of_frames_extracted}}</span>
+                                <span class="info-desp" *ngIf="no_of_frames_extracted == ''">No Information</span>
+                            </p>
+                        </div>
+                        <div class="card-footer" style="text-align: center;">
+                            <button class="btn btn-success" (click)="get_frame_count_v2()">Extract Video
+                                Information</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 15px;">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label for="exampleFormControlSelect1">Select Second</label>
+                        <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="selected_second">
+                            <option *ngFor="let item of list_of_seconds" [value]="item">
+                                {{item}}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-4" style="padding: 20px;">
+                    <button class="btn btn-success" (click)="get_second_info_v2()">Display Frame Info</button>
+                </div>
+            </div>
+            <div class="row" style="margin-top : 15px" *ngIf="second_data['normal_frame_name'] != ''">
+                <div class="col-md-6">
+                    <div class="card bg-dark text-white">
+                        <div class="card-header">{{second_data["normal_frame_name"]}}</div>
+                    </div>
+                    <div class="card-body">
+                        <!-- <img [src]="second_data['normal_frame']" height="400" width="500"> -->
+                        <image-cropper
+                        *ngIf="this.second_data['normal_frame']"
+                        [imageChangedEvent]="imageChangedEvent"
+                        [imageBase64]="this.second_data['normal_frame']"
+                        [maintainAspectRatio]="false"
+                        [aspectRatio]="4 / 3"
+                        format="png"
+                        [resizeToWidth]="200"
+                        [resizeToHeight]="200"
+                        (imageCropped)="imageCropped($event)"
+                        (imageLoaded)="imageLoaded($event)"
+                        (cropperReady)="cropperReady()"
+                        (loadImageFailed)="loadImageFailed()"
+                        ></image-cropper>
+                        <div class="card-footer text-muted text-center bg-white">
+                            No of people in frame: {{second_data["no_of_people_in_frame"]}}
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="col-md-6">
+                    <div class="card bg-dark text-white">
+                        <div class="card-header">Cropped Image</div>
+                    </div>
+                    <div class="card-body" style="text-align: center;">
+                        <div style="padding: 20px;">
+                            <img [src]="croppedImage">
+                        </div>
+                        <div>
+                            <button class="btn btn-success" (click)="start_reid_v2()">Re-identify</button>
+                        </div>
+                        
+
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin: 5px;" *ngIf="prid_result.length != 0">
+                <div *ngFor="let item of prid_result ; let i = index ; let l = count">
+                    <div class="row" *ngIf="i % 2 == 0">
+                        <div class="col-md-6" *ngIf="i<l">
+                            <div class="card">
+                                <div class="card-header bg-dark text-white">
+                                    {{prid_result[i]['frame_name']}}
+                                </div>
+                                <div class="card-body">
+                                    <img [src]="prid_result[i]['frame']" height="400" width="500">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" *ngIf="i+1<l">
+                            <div class="card">
+                                <div class="card-header bg-dark text-white">
+                                    {{prid_result[i+1]['frame_name']}}
+                                </div>
+                                <div class="card-body">
+                                    <img [src]="prid_result[i+1]['frame']" height="400" width="500">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="overlay" *ngIf="popup">
+                <div class="popup">
+                    <h2>Time Benchmark</h2>
+                    <a class="close" (click)="popup = false">&times;</a>
+                    <div class="content">
+                        <div>
+                            Time to read video for preprocessing: {{time_benchmark["time_to_read"]}} s
+                        </div>
+                        <div>
+                            Time to annotate frame for preprocessing : {{time_benchmark["time_to_annotate"]}} s
+                        </div>
+                        <div>
+                            Time to load {{total_frame_count}} frames for re-id: {{time_benchmark["time_to_get_images_for_prid"]}} s
+                        </div>
+                        <div>
+                            Time to extract features for re-id: {{time_benchmark["time_to_extract_for_prid"]}} s
+                        </div>
+                        <div>
+                            Time to match frames for re-id : {{time_benchmark["time_to_match"]}} s
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-md-8">
+                    Once Analysis Done, Click on Done button
+                </div>
+                <div class="col-md-2 btn-position">
+                    <button class="btn btn-success" (click)="popup = true">Time Benchmark</button>
+                </div>
+                <!-- <div class="col-md-2 btn-position">
+                    <button class="btn btn-success" (click)="analysis_done()">Analysis Done</button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade"  id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true"
+ data-backdrop="static" data-keyboard="false" >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Process Status</h5>
+        </div>
+        <div class="modal-body" style="overflow-y: scroll;max-height: 400px;">
+            <div id="content">
+                <div id="contentInside" *ngFor="let container of containers;let i = index;">
+                <span style="color: blue;">{{container["status_title"]}}</span> 
+                <span *ngIf="!container['status_value']">
+                    <img class="processComplete" src="../../assets/Gear-0.2s-200px.gif"/>
+                </span>
+                <span *ngIf="container['status_value']" >
+                    <img class="processComplete" src="../../assets/process-completed.svg"/>
+                </span>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+  </div>
